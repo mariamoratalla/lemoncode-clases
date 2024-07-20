@@ -1,8 +1,8 @@
 import { Reserva, reservas } from "./modelo";
 
-const _IVA = 0.21;
+const _IVA = 1.21; //SUMAR 21%
 const _PERSONA_ADICIONAL = 40;
-const _DESCUENTO = 0.85;
+const _DESCUENTO = 0.85; //RESTAR 15%
 
 class ImporteReserva {
   reservas: Reserva[];
@@ -36,7 +36,7 @@ class ImporteReserva {
   }
 
   calcularIva(subtotal: number): number {
-    return Number((subtotal += subtotal * _IVA).toFixed(2));
+    return Number((subtotal * _IVA).toFixed(2));
   }
 }
 
