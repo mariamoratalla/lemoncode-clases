@@ -54,15 +54,11 @@ class ImporteReservaTourOperador extends ImporteReserva {
     super(reservas);
   }
 
-  precioPorTipoHabitacion(): number {
-    return 100;
-  }
-
   calcularSubtotal(): number {
     let subtotal: number = 0;
 
     this.reservas.forEach((reserva) => {
-      const precioHabitacion: number = this.precioPorTipoHabitacion();
+      const precioHabitacion: number = 100;
       const precioPersona: number = this.precioPorPersonaAdicional(reserva);
       const precioNoche: number = precioHabitacion + precioPersona;
 
