@@ -2,6 +2,7 @@ import { Reserva, reservas } from "./modelo";
 
 const _IVA = 0.21;
 const _PERSONA_ADICIONAL = 40;
+const _DESCUENTO = 0.85;
 
 class ImporteReserva {
   reservas: Reserva[];
@@ -28,18 +29,55 @@ class ImporteReserva {
       const precioPersona: number = this.precioPorPersonaAdicional(reserva);
       const precioNoche: number = precioHabitacion + precioPersona;
 
-      subtotal += precioNoche * reserva.noches;
+      subtotal += Number((precioNoche * reserva.noches).toFixed(2));
     });
 
     return subtotal;
   }
 
   calcularIva(subtotal: number): number {
-    return (subtotal += subtotal * _IVA);
+    return Number((subtotal += subtotal * _IVA).toFixed(2));
   }
 }
 
 const calcularImporte = new ImporteReserva(reservas);
-console.log(calcularImporte);
-console.log(calcularImporte.calcularSubtotal());
-console.log(calcularImporte.calcularIva(calcularImporte.calcularSubtotal()));
+const subtotal = calcularImporte.calcularSubtotal();
+console.log(`El subtotal del Caso 1 es: ${subtotal}€`);
+console.log(
+  `El total del Caso 1 es: ${calcularImporte.calcularIva(subtotal)}€`
+);
+
+/* CASO 2 */
+
+class ImporteReservaTourOperador extends ImporteReserva {
+  constructor(reservas: Reserva[]) {
+    super(reservas);
+  }
+
+  precioPorTipoHabitacion(): number {
+    return 100;
+  }
+
+  calcularSubtotal(): number {
+    let subtotal: number = 0;
+
+    this.reservas.forEach((reserva) => {
+      const precioHabitacion: number = this.precioPorTipoHabitacion();
+      const precioPersona: number = this.precioPorPersonaAdicional(reserva);
+      const precioNoche: number = precioHabitacion + precioPersona;
+
+      subtotal += precioNoche * reserva.noches;
+    });
+
+    return Number((subtotal * _DESCUENTO).toFixed(2));
+  }
+}
+
+const calcularImporteTourOperador = new ImporteReservaTourOperador(reservas);
+const subtotalTourOperador = calcularImporteTourOperador.calcularSubtotal();
+console.log(`El subtotal del Caso Tour Operador es: ${subtotalTourOperador}`);
+console.log(
+  `El total del Caso Tour Operador es: ${calcularImporteTourOperador.calcularIva(
+    subtotalTourOperador
+  )}`
+);
