@@ -1,6 +1,6 @@
 # LABORATORIO CLASES
 
-## ¿Cómo abrir el proyeto?
+## ¿Cómo abrir el proyecto?
 
 Pasos:
 
