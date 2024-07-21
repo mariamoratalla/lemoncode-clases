@@ -32,6 +32,11 @@ class ImporteReserva {
     return pax > 1 ? (pax - 1) * _PERSONA_ADICIONAL : 0;
   }
 
+  precioDesayuno(reserva: Reserva): number {
+    const { desayuno } = reserva;
+    return desayuno ? 15 : 0;
+  }
+
   calcularSubtotal(): number {
     let subtotal: number = 0;
 
@@ -39,8 +44,10 @@ class ImporteReserva {
       const precioHabitacion: number = this.precioPorTipoHabitacion(
         reserva.tipoHabitacion
       );
+      const precioDesayuno: number = this.precioDesayuno(reserva) * reserva.pax;
       const precioPersona: number = this.precioPorPersonaAdicional(reserva);
-      const precioNoche: number = precioHabitacion + precioPersona;
+      const precioNoche: number =
+        precioHabitacion + precioPersona + precioDesayuno;
 
       subtotal += Number((precioNoche * reserva.noches).toFixed(2));
     });
@@ -86,8 +93,10 @@ class ImporteReservaTourOperador extends ImporteReserva {
 
     this.reservas.forEach((reserva) => {
       const precioHabitacion: number = 100;
+      const precioDesayuno: number = this.precioDesayuno(reserva) * reserva.pax;
       const precioPersona: number = this.precioPorPersonaAdicional(reserva);
-      const precioNoche: number = precioHabitacion + precioPersona;
+      const precioNoche: number =
+        precioHabitacion + precioPersona + precioDesayuno;
 
       subtotal += precioNoche * reserva.noches;
     });
